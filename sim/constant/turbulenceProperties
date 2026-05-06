@@ -1,0 +1,10 @@
+FoamFile { version 2.0; format ascii; class dictionary; location "constant"; object turbulenceProperties; }
+
+simulationType  RAS; // Reynolds-Averaged Simulation
+
+RAS
+{
+    RASModel        kOmega; // k-omega 모델 선택
+    turbulence      on;       // 난류 계산 켬
+    printCoeffs     on;       // 계수 정보 출력
+}
