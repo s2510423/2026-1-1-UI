@@ -1,0 +1,85 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://www.openfoam.com
+    \\  /    A nd           | Version:  2312
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     dpmFoam;
+
+startFrom       latestTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+// 스크러버 내 유동이 안정화되고 입자가 충분히 통과할 시간 설정
+endTime         2.0; 
+
+// dpmFoam은 Courant Number에 민감하므로 가변 시간 단계(Adjustable) 권장
+deltaT          1e-5;
+
+writeControl    adjustableRunTime;
+
+// 0.05초마다 데이터 저장 (애니메이션 및 포집 효율 분석용)
+writeInterval   0.05;
+
+purgeWrite      0;
+
+writeFormat     binary;
+
+writePrecision  6;
+
+compression     off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable true;
+
+// --- Courant Number 및 시간 조절 설정 ---
+adjustTimeStep  yes;
+
+// 입자-유체 상호작용 안정성을 위해 MaxCo는 0.5~0.8 권장
+maxCo           0.7;
+maxDeltaT       1e-3;
+
+// --- 유용한 Function Objects (포집 효율 분석용) ---
+functions
+{
+    // 입자가 출구(Outlet)를 통해 얼마나 나가는지 카운트
+    patchPostProcessing1
+    {
+        type            patchPostProcessing;
+        libs            (fieldFunctionObjects);
+        enabled         yes;
+        patches         (outlet);
+        writeControl    writeTime;
+    }
+
+    // 특정 영역(Mist Eliminator 위치)에서의 물리량 모니터링
+    probes1
+    {
+        type            probes;
+        libs            (sampling);
+        fixedLocations  false;
+        probeLocations
+        (
+            (0.1 0.1 0.5) // 스크러버 내부 주요 지점 좌표로 수정 필요
+        );
+        fields          (p U);
+    }
+}
+
+// ************************************************************************* //
