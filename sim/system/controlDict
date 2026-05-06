@@ -48,6 +48,8 @@ timePrecision   6;
 
 runTimeModifiable true;
 
+libs            ("liblagrangian.so" "libdpmTurbo.so");
+
 // --- Courant Number 및 시간 조절 설정 ---
 adjustTimeStep  yes;
 
@@ -64,21 +66,8 @@ functions
         type            patchPostProcessing;
         libs            (fieldFunctionObjects);
         enabled         yes;
-        patches         (outlet);
+        patches         (Outlet);
         writeControl    writeTime;
-    }
-
-    // 특정 영역(Mist Eliminator 위치)에서의 물리량 모니터링
-    probes1
-    {
-        type            probes;
-        libs            (sampling);
-        fixedLocations  false;
-        probeLocations
-        (
-            (0.1 0.1 0.5) // 스크러버 내부 주요 지점 좌표로 수정 필요
-        );
-        fields          (p U);
     }
 }
 
