@@ -1,45 +1,5 @@
-FoamFile
-{
-    version     2.0;
-    format      ascii;
-    class       dictionary;
-    location    "constant";
-    object      kinematicCloudProperties;
-}
-
-solution
-{
-    active      true;
-    coupled     true; // 공기와 입자가 서로 힘을 주고받음
-    transient   yes;
-    integrationSchemes { velocity Euler; }
-}
-
-subModels
-{
-    particleForces { sphereDrag; gravity; }
-    injectionModels
-    {
-        model1 // 미세먼지 유입
-        {
-            type            patchInjection;
-            patchName       Inlet;
-            massTotal       0.01;
-            parcelBasisType mass;
-            nParticle       100;
-            SOI             0;
-            duration        0.5;
-            velocityType    patchVelocity;
-        }
-    }
-    dispersionModel none;
-    patchInteractionModel localInteraction;
-    localInteractionCoeffs
-    {
-        patches
-        (
-            Wall   { type stick;  }
-            Outlet { type escape; }
-        );
-    }
-}
+FoamFile { version 2.0; format ascii; class dictionary; location "constant"; object cloudProperties; }
+type MPPICCloud;
+solution { active true; transient true; coupled true; cellValueSourceCorrection true; maxCo 0.3; sourceTerms { schemes { U semiImplicit; } } interpolationSchemes { rho.air cell; U.air cell; mu.air cell; } integrationSchemes { U Euler; } }
+constantProperties { rho0 2500; d0 0.001; youngsModulus 1e8; poissonsRatio 0.35; }
+subModels { particleForces { sphereDrag; gravity; } injectionModels {}; dispersionModel none; patchInteractionModel none; stochasticCollisionModel none; surfaceFilmModel none; packingModel none; dampingModel none; isotropyModel none; }

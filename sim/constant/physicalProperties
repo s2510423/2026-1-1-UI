@@ -7,11 +7,20 @@ FoamFile
     object      physicalProperties;
 }
 
-continuousPhaseName air; // 이 한 줄이 없어서 뻗은 거야
+continuousPhaseName air;
+
+viscosityModel  constant;
+nu              nu [0 2 -1 0 0 0 0] 1.5e-05;
+rho             rho [1 -3 0 0 0 0 0] 1.2;
 
 air
 {
     viscosityModel  constant;
-    nu              [0 2 -1 0 0 0 0] 1.5e-05;
-    rho             [1 -3 0 0 0 0 0] 1.2;
+    nu              nu [0 2 -1 0 0 0 0] 1.5e-05;
+    rho             rho [1 -3 0 0 0 0 0] 1.2;
+    nu.air          nu [0 2 -1 0 0 0 0] 1.5e-05;
+    rho.air         rho [1 -3 0 0 0 0 0] 1.2;
 }
+
+nu.air          nu [0 2 -1 0 0 0 0] 1.5e-05;
+rho.air         rho [1 -3 0 0 0 0 0] 1.2;

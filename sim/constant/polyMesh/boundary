@@ -20,7 +20,7 @@ FoamFile
 (
     Wall
     {
-        type            patch;
+        type wall;
         nFaces          376;
         startFace       4764;
     }
@@ -38,7 +38,7 @@ FoamFile
     }
     Empty
     {
-        type            patch;
+        type            empty;
         nFaces          1898;
         startFace       5170;
     }
