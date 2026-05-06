@@ -1,0 +1,24 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      decomposeParDict;
+}
+
+// 사용할 총 코어 수
+numberOfSubdomains 4;
+
+// 분할 방식 (simple은 기하학적으로 쪼개는 방식)
+method          simple;
+
+simpleCoeffs
+{
+    n               (4 1 1); // X, Y, Z축 방향 분할 개수 (곱해서 numberOfSubdomains가 되어야 함)
+    delta           0.001;
+}
+
+// 입자(Lagrangian) 계산을 각 프로세서에 분산시킴
+distributed     yes;
+roots           ();
