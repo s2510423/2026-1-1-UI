@@ -38,7 +38,7 @@ FoamFile
     }
     Empty
     {
-        type patch;
+        type            empty;
         nFaces          1898;
         startFace       5170;
     }
