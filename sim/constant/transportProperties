@@ -1,0 +1,27 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      transportProperties;
+}
+
+continuousPhase air;
+
+// dpmFoam v2312은 '변수명.상명' 형식을 직접 요구함
+transportModel  Newtonian;
+
+nu.air          nu [0 2 -1 0 0 0 0] 1.5e-05;
+rho.air         rho [1 -3 0 0 0 0 0] 1.2;
+
+// 혹시 몰라서 레거시 버전용도 남겨둠
+nu              nu [0 2 -1 0 0 0 0] 1.5e-05;
+rho             rho [1 -3 0 0 0 0 0] 1.2;
+
+air
+{
+    transportModel  Newtonian;
+    nu              nu [0 2 -1 0 0 0 0] 1.5e-05;
+    rho             rho [1 -3 0 0 0 0 0] 1.2;
+}

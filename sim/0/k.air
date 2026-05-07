@@ -6,5 +6,5 @@ boundaryField
     Inlet { type fixedValue; value uniform 0.01; }
     Outlet { type zeroGradient; }
     Wall { type kLowReWallFunction; value uniform 0.01; }
-    Empty { type empty;}
+    Empty { type zeroGradient;
 }

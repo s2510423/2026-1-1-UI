@@ -6,5 +6,5 @@ boundaryField
     Inlet { type calculated; value uniform 0; }
     Outlet { type calculated; value uniform 0; }
     Wall { type nutkWallFunction; value uniform 0; }
-    Empty { type empty;}
+    Empty { type zeroGradient;
 }
