@@ -1,46 +1,33 @@
-FoamFile
-{
-    version     2.0;
-    format      ascii;
-    class       dictionary;
-    location    "system";
-    object      fvSchemes;
-}
+FoamFile { version 2.0; format ascii; class dictionary; location "system"; object fvSchemes; }
 
-ddtSchemes
-{
-    default         Euler;
-}
-
-gradSchemes
-{
-    default         Gauss linear;
-    grad(p)         Gauss linear;
-}
+ddtSchemes { default Euler; }
+gradSchemes { default cellLimited Gauss linear 1; }
 
 divSchemes
 {
     default         none;
-    div(phi,U)      Gauss limitedLinear 1;
-    div(phi.air,U.air) Gauss limitedLinear 1;
-    div(phi,k)      Gauss upwind;
-    div(phi,epsilon) Gauss upwind;
-    div(phi,omega)  Gauss upwind;
-    div(((rho*nuEff)*dev2(T(grad(U))))) Gauss linear;
+    // 발산을 막기 위해 모두 upwind(1차 정확도)로 변경
+    div(phi.air,U.air)      Gauss upwind;
+    div(phi.air,k.air)      Gauss upwind;
+    div(phi.air,omega.air)  Gauss upwind;
+    div(alphaPhi.air,U.air)     Gauss upwind;
+    div(alphaPhi.air,k.air)     Gauss upwind;
+    div(alphaPhi.air,omega.air) Gauss upwind;
+    "div(((alpha.air*nuEff.air)*dev2(T(grad(U.air)))))" Gauss linear;
 }
 
 laplacianSchemes
 {
-    // 비직교성이 심하므로 limited 0.5 정도를 줘서 안정화
-    default         Gauss linear limited 0.5;
+    // 핵심: corrected 대신 uncorrected (비직교성 보정 강화)
+    default         Gauss linear uncorrected;
 }
 
-interpolationSchemes
-{
-    default         linear;
-}
+interpolationSchemes { default linear; }
 
 snGradSchemes
 {
-    default         limited 0.5;
+    // 핵심: 비직교성 대응을 위해 limited 보정
+    default         uncorrected;
 }
+
+wallDist { method meshWave; }

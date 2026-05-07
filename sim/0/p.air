@@ -4,30 +4,16 @@ FoamFile
     format      ascii;
     class       volScalarField;
     location    "0";
-    object      p;
+    object      p.air;
 }
-
 dimensions      [0 2 -2 0 0 0 0];
+
 internalField   uniform 0;
 
 boundaryField
 {
-    Inlet
-    {
-        type            zeroGradient;
-    }
-    Outlet
-    {
-        type            fixedValue;
-        value           uniform 0;
-    }
-    Wall
-    {
-        type            zeroGradient;
-    }
-    Empty
-    {
-        type            zeroGradient;
-    }
+    Inlet { type zeroGradient; }
+    Outlet { type fixedValue; value uniform 0; }
+    Wall { type zeroGradient; }
+    Empty { type zeroGradient; }
 }
-

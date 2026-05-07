@@ -1,0 +1,67 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      kinematicCloudProperties;
+}
+
+type            kinematicCloud;
+
+solution
+{
+    active      true;
+    transient   true;
+    coupled     false;
+    cellValueSourceCorrection false;
+    maxCo       0.3;
+    
+    interpolationSchemes
+    {
+        default         cell;
+        // 1. .air가 붙은 버전 (U.air가 아까 이걸 요구했지)
+        U.air           cell;
+        rho.air         cell;
+        mu.air          cell;
+        p.air           cell;
+        
+        // 2. .air가 없는 버전 (지금 rho가 이걸 요구함)
+        U               cell;
+        rho             cell;
+        mu              cell;
+        p               cell;
+    }
+    
+    integrationSchemes
+    {
+        U               Euler;
+    }
+}
+
+constantProperties
+{
+    rho0            2500;
+    d0              0.001;
+    youngsModulus   1e8;
+    poissonsRatio   0.35;
+    alphaMax        0.62;
+}
+
+subModels
+{
+    particleForces
+    {
+        sphereDrag;
+        gravity;
+    }
+    injectionModels {}
+    collisionModel  none;
+    dispersionModel none;
+    patchInteractionModel none;
+    stochasticCollisionModel none;
+    surfaceFilmModel none;
+    packingModel none;
+    dampingModel none;
+    isotropyModel none;
+}

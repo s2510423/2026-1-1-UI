@@ -6,9 +6,8 @@ FoamFile
     location    "0";
     object      U.air;
 }
-dimensions      [0 1 -1 0 0 0 0];
 
-// internalField에는 uniform이 필수라네... 다시 넣어주자.
+dimensions      [0 1 -1 0 0 0 0];
 internalField   uniform (0 0 0);
 
 boundaryField
@@ -31,3 +30,5 @@ boundaryField
         type            zeroGradient;
     }
 }
+
+// 반드시 여기에 빈 줄 한 줄이 있어야 함

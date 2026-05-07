@@ -1,24 +1,65 @@
+
 FoamFile
+
 {
+
     version     2.0;
+
     format      ascii;
+
     class       dictionary;
+
     location    "system";
+
     object      decomposeParDict;
+
 }
 
-// 사용할 총 코어 수
-numberOfSubdomains 4;
 
-// 분할 방식 (simple은 기하학적으로 쪼개는 방식)
+
+// 1. 사용할 코어 수 (너의 환경에 맞춰서 수정해!)
+
+numberOfSubdomains 9;
+
+
+
+// 2. 분할 방식 (가장 안정적인 simple 방식)
+
 method          simple;
 
+
+
 simpleCoeffs
+
 {
-    n               (4 1 1); // X, Y, Z축 방향 분할 개수 (곱해서 numberOfSubdomains가 되어야 함)
+
+    n               (3 3 1); // X로 2등분, Y로 2등분, Z는 그대로 (총 4개)
+
     delta           0.001;
+
 }
 
-// 입자(Lagrangian) 계산을 각 프로세서에 분산시킴
+
+
+hierarchicalCoeffs
+
+{
+
+    n               (3 3 1);
+
+    delta           0.001;
+
+    order           xyz;
+
+}
+
+
+
+// 3. dpmFoam 필수 설정 (입자/클라우드 분할 방식)
+
 distributed     yes;
+
 roots           ();
+
+
+
