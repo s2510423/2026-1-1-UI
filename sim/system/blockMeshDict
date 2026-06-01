@@ -32,7 +32,7 @@ vertices
 blocks
 (
     // X축 40등분, Y축 28등분, Z축 10등분으로 정사면체 비율 유지
-    hex (0 1 2 3 4 5 6 7) (40 27 10) simpleGrading (1 1 1)
+    hex (0 1 2 3 4 5 6 7) (150 100 40) simpleGrading (1 1 1)
 );
 
 edges
