@@ -1,0 +1,51 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2312                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      snappyHexMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+geometry
+{
+    Inlet.stl  { type triSurfaceMesh; name Inlet; }
+    Outlet.stl { type triSurfaceMesh; name Outlet; }
+    Wall.stl   { type triSurfaceMesh; name Wall; }
+}
+
+castellatedMeshControls
+{
+    maxLocalCells 100000;
+    maxGlobalCells 2000000;
+    minRefinementCells 10;
+    nCellsBetweenLevels 3;
+
+    features
+    (
+        { file "wall.eMesh"; level 3; }
+        { file "inlet.eMesh"; level 2; }
+        { file "outlet.eMesh"; level 2; }
+    );
+
+    refinementSurfaces
+    {
+        Inlet  { level (2 2); }
+        Outlet { level (2 2); }
+        Wall   { level (2 3); } 
+    }
+
+    resolveFeatureAngle 30;
+
+    locationInMesh (0.01 0.01 0.01); 
+
+    allowFreeStandingZoneFaces false;
+}
