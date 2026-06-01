@@ -36,20 +36,21 @@ castellatedMeshControls
     maxLocalCells 100000;
     maxGlobalCells 2000000000;
     minRefinementCells 10;
-    nCellsBetweenLevels 3;
+    nCellsBetweenLevels 2;
 
-    features
+features
     (
-        { file "Wall.eMesh"; level 3; }
-        { file "Inlet.eMesh"; level 2; }
-        { file "Outlet.eMesh"; level 2; }
+        // level을 1로 낮춰서 격자가 급격하게 뒤틀리는 것을 막습니다.
+        { file "Wall.eMesh"; level 1; }
+        { file "Inlet.eMesh"; level 1; }
+        { file "Outlet.eMesh"; level 1; }
     );
 
     refinementSurfaces
     {
         Inlet  { level (2 2); }
         Outlet { level (2 2); }
-        Wall   { level (2 3); } 
+        Wall   { level (3 3); } 
     }
 
     resolveFeatureAngle 30;
@@ -57,7 +58,7 @@ castellatedMeshControls
     refinementRegions
     {
     }
-locationInMesh (0.01 0.01 0.01); 
+locationInMesh (0.3 0.05 0.05);
 
     allowFreeStandingZoneFaces false;
 }
@@ -85,7 +86,7 @@ addLayersControls
     nBufferCellsNoExtrude 0;
     maxFaceThicknessRatio 0.5;
     maxThicknessToMedialRatio 0.3;
-    minMedianAxisAngle  90;
+    minMedialAxisAngle  90;
     nSmoothSurfaceNormals 1;
     nSmoothNormals      3;
     nSmoothThickness    10;

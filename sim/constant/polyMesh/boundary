@@ -23,28 +23,28 @@ FoamFile
         type            wall;
         inGroups        1(wall);
         nFaces          0;
-        startFace       83868;
+        startFace       278242;
     }
     Inlet
     {
         type            wall;
         inGroups        1(wall);
-        nFaces          207;
-        startFace       83868;
+        nFaces          288;
+        startFace       278242;
     }
     Outlet
     {
         type            wall;
         inGroups        1(wall);
-        nFaces          396;
-        startFace       84075;
+        nFaces          528;
+        startFace       278530;
     }
     Wall
     {
         type            wall;
         inGroups        1(wall);
-        nFaces          16198;
-        startFace       84471;
+        nFaces          38968;
+        startFace       279058;
     }
 )
 
