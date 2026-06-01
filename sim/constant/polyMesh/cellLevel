@@ -9,32 +9,13 @@ FoamFile
 {
     version     2.0;
     format      ascii;
-    class       dictionary;
-    location    "system";
-    object      surfaceFeatureExtractDict;
+    arch        "LSB;label=32;scalar=64";
+    class       labelList;
+    location    "constant/polyMesh";
+    object      cellLevel;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-Wall.stl
-{
-    extractionMethod    extractFromSurface;
-    extractFromSurfaceCoeffs
-    { includedAngle   150; }
-    writeObj            no; 
-}
+3968{3}
 
-Inlet.stl
-{
-    extractionMethod    extractFromSurface;
-    extractFromSurfaceCoeffs
-    { includedAngle   150; }
-    writeObj            no;
-}
-
-Outlet.stl
-{
-    extractionMethod    extractFromSurface;
-    extractFromSurfaceCoeffs
-    { includedAngle   150; }
-    writeObj            no;
-}
+// ************************************************************************* //

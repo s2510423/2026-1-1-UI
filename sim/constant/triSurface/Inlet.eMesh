@@ -9,32 +9,20 @@ FoamFile
 {
     version     2.0;
     format      ascii;
-    class       dictionary;
-    location    "system";
-    object      surfaceFeatureExtractDict;
+    arch        "LSB;label=32;scalar=64";
+    class       featureEdgeMesh;
+    location    "constant/triSurface";
+    object      Inlet.eMesh;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-Wall.stl
-{
-    extractionMethod    extractFromSurface;
-    extractFromSurfaceCoeffs
-    { includedAngle   150; }
-    writeObj            no; 
-}
 
-Inlet.stl
-{
-    extractionMethod    extractFromSurface;
-    extractFromSurfaceCoeffs
-    { includedAngle   150; }
-    writeObj            no;
-}
+// points:
+4((0 0.05 0) (0 0 0) (0 0 0.1) (0 0.05 0.1))
 
-Outlet.stl
-{
-    extractionMethod    extractFromSurface;
-    extractFromSurfaceCoeffs
-    { includedAngle   150; }
-    writeObj            no;
-}
+// edges:
+4((0 1) (1 2) (2 3) (3 0))
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+// ************************************************************************* //

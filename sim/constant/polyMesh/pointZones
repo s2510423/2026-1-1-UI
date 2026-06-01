@@ -9,32 +9,23 @@ FoamFile
 {
     version     2.0;
     format      ascii;
-    class       dictionary;
-    location    "system";
-    object      surfaceFeatureExtractDict;
+    arch        "LSB;label=32;scalar=64";
+    class       regIOobject;
+    location    "constant/polyMesh";
+    object      pointZones;
+    meta
+    {
+        names           1 ( frozenPoints );
+    }
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-Wall.stl
+1
+(frozenPoints
 {
-    extractionMethod    extractFromSurface;
-    extractFromSurfaceCoeffs
-    { includedAngle   150; }
-    writeObj            no; 
+    type            pointZone;
+    pointLabels     List<label> 0();
 }
+)
 
-Inlet.stl
-{
-    extractionMethod    extractFromSurface;
-    extractFromSurfaceCoeffs
-    { includedAngle   150; }
-    writeObj            no;
-}
-
-Outlet.stl
-{
-    extractionMethod    extractFromSurface;
-    extractFromSurfaceCoeffs
-    { includedAngle   150; }
-    writeObj            no;
-}
+// ************************************************************************* //
