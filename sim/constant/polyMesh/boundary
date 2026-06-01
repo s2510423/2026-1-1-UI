@@ -16,35 +16,28 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-4
+3
 (
-    baseOuterWalls
-    {
-        type            wall;
-        inGroups        1(wall);
-        nFaces          0;
-        startFace       278242;
-    }
     Inlet
     {
         type            wall;
         inGroups        1(wall);
-        nFaces          288;
-        startFace       278242;
+        nFaces          372;
+        startFace       520776;
     }
     Outlet
     {
         type            wall;
         inGroups        1(wall);
-        nFaces          528;
-        startFace       278530;
+        nFaces          688;
+        startFace       521148;
     }
     Wall
     {
         type            wall;
         inGroups        1(wall);
-        nFaces          38968;
-        startFace       279058;
+        nFaces          37568;
+        startFace       521836;
     }
 )
 
