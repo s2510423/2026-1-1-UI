@@ -17,13 +17,9 @@ FoamFile
 
 
 
-// 1. 사용할 코어 수 (너의 환경에 맞춰서 수정해!)
-
-numberOfSubdomains 9;
+numberOfSubdomains 4;
 
 
-
-// 2. 분할 방식 (가장 안정적인 simple 방식)
 
 method          simple;
 
@@ -33,8 +29,7 @@ simpleCoeffs
 
 {
 
-    n               (3 3 1); // X로 2등분, Y로 2등분, Z는 그대로 (총 4개)
-
+    n               (2 2 1);
     delta           0.001;
 
 }
@@ -45,7 +40,7 @@ hierarchicalCoeffs
 
 {
 
-    n               (3 3 1);
+    n               (2 2 1);
 
     delta           0.001;
 
@@ -55,7 +50,6 @@ hierarchicalCoeffs
 
 
 
-// 3. dpmFoam 필수 설정 (입자/클라우드 분할 방식)
 
 distributed     yes;
 

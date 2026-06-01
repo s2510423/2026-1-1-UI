@@ -6,7 +6,7 @@ solvers
     {
         solver          PCG;
         preconditioner  diagonal;
-        tolerance       1e-6;
+        tolerance       5e-4;
         relTol          0.05;
     }
     "(U|k|omega).*"

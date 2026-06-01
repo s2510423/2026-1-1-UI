@@ -1,0 +1,11 @@
+--2026-06-01 22:35:03--  https://dl.openfoam.com/add-debian-repo.sh
+Resolving dl.openfoam.com (dl.openfoam.com)... 82.71.205.33, 64:ff9b::5247:cd21
+Connecting to dl.openfoam.com (dl.openfoam.com)|82.71.205.33|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 4147 (4.0K) [application/x-sh]
+Saving to: ‘STDOUT’
+
+-                                  0%[                                                           ]       0  --.-KB/s               -                                100%[==========================================================>]   4.05K  --.-KB/s    in 0s      
+
+2026-06-01 22:35:04 (885 MB/s) - written to stdout [4147/4147]
+

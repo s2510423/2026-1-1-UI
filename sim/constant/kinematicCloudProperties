@@ -1,11 +1,20 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2312                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
 FoamFile
 {
     version     2.0;
     format      ascii;
+    arch        "LSB;label=32;scalar=64";
     class       dictionary;
     location    "constant";
     object      kinematicCloudProperties;
 }
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 type            kinematicCloud;
 
@@ -36,11 +45,11 @@ solution
         U               Euler;
     }
 }
-
 constantProperties
 {
-    rho0            2500;
-    d0              0.001;
+    // 🌟 1. PM2.5 입자의 밀도 반영 (1500 kg/m3)
+    rho0            1500;
+    d0              2.5e-6;
     youngsModulus   1e8;
     poissonsRatio   0.35;
     alphaMax        0.62;
@@ -53,10 +62,43 @@ subModels
         sphereDrag;
         gravity;
     }
-    injectionModels {}
+injectionModels
+    {
+        model1
+        {
+            type            patchInjection;
+            patch           Inlet;
+            
+            SOI             0.0;
+            duration        0.0001;          // 찰나의 순간에 뿜고 닫기
+            
+            parcelBasisType fixed;
+            nParticle       1;
+            parcelsPerSecond 1000000;        // 0.0001초 동안 총 100개 유도
+            
+            flowRateProfile constant 1;      // 2312 필수 우회 항목
+            massTotal       1.227e-12;       // PM2.5 100개 총 질량
+            
+            U0              (1 0 0);
+            sizeDistribution
+            {
+                type        fixedValue;
+                // 🌟 오픈폼 2312 소스코드가 강제하는 서브 딕셔너리 명칭
+                fixedValueDistribution
+                {
+                    // 🌟 내부에서 찾으려고 혈안이 되어 있는 바로 그 키워드 'value'
+                    value   2.5e-6;          // PM2.5 직경 (2.5 마이크로미터)
+                }
+            }
+        }
+    }
     collisionModel  none;
     dispersionModel none;
-    patchInteractionModel none;
+    patchInteractionModel standardWallInteraction;
+    standardWallInteractionCoeffs
+    {
+        type            stick;               // 격판 벽면에 붙으면 포집(포획) 처리
+    }
     stochasticCollisionModel none;
     surfaceFilmModel none;
     packingModel none;
