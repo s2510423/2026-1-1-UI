@@ -6,7 +6,6 @@ gradSchemes { default cellLimited Gauss linear 1; }
 divSchemes
 {
     default         none;
-    // 발산을 막기 위해 모두 upwind(1차 정확도)로 변경
     div(phi.air,U.air)      Gauss upwind;
     div(phi.air,k.air)      Gauss upwind;
     div(phi.air,omega.air)  Gauss upwind;
@@ -18,7 +17,6 @@ divSchemes
 
 laplacianSchemes
 {
-    // 핵심: corrected 대신 uncorrected (비직교성 보정 강화)
     default         Gauss linear uncorrected;
 }
 
@@ -26,7 +24,6 @@ interpolationSchemes { default linear; }
 
 snGradSchemes
 {
-    // 핵심: 비직교성 대응을 위해 limited 보정
     default         uncorrected;
 }
 

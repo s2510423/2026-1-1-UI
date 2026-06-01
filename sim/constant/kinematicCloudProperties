@@ -20,13 +20,11 @@ solution
     interpolationSchemes
     {
         default         cell;
-        // 1. .air가 붙은 버전 (U.air가 아까 이걸 요구했지)
         U.air           cell;
         rho.air         cell;
         mu.air          cell;
         p.air           cell;
         
-        // 2. .air가 없는 버전 (지금 rho가 이걸 요구함)
         U               cell;
         rho             cell;
         mu              cell;

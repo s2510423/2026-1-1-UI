@@ -25,10 +25,5 @@ boundaryField
     {
         type            noSlip;
     }
-    Empty
-    {
-        type            zeroGradient;
-    }
 }
 
-// 반드시 여기에 빈 줄 한 줄이 있어야 함

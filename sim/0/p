@@ -25,9 +25,5 @@ boundaryField
     {
         type            zeroGradient;
     }
-    Empty
-    {
-        type            empty;
-    }
 }
 

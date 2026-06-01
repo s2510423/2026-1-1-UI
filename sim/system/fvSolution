@@ -22,18 +22,18 @@ PIMPLE
 {
     nOuterCorrectors     2;
     nCorrectors          2;
-    nNonOrthogonalCorrectors 5; // 3에서 5로 더 늘려! (비직교성 끝판왕 대응)
+    nNonOrthogonalCorrectors 5; 
 }
 
 relaxationFactors
 {
     fields
     {
-        "p.*"           0.05; // 0.1도 높다. 0.05로 더 죽여버려.
+        "p.*"           0.05; 
     }
     equations
     {
-        "U.*"           0.2; // 속도도 더 꽉 눌러.
+        "U.*"           0.2; 
         "k.*"           0.2;
         "omega.*"       0.2;
     }

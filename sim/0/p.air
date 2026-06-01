@@ -15,5 +15,4 @@ boundaryField
     Inlet { type zeroGradient; }
     Outlet { type fixedValue; value uniform 0; }
     Wall { type zeroGradient; }
-    Empty { type empty; }
 }
