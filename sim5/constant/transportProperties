@@ -1,0 +1,25 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      transportProperties;
+}
+
+continuousPhase air;
+
+transportModel  Newtonian;
+
+nu.air          nu [0 2 -1 0 0 0 0] 1.5e-05;
+rho.air         rho [1 -3 0 0 0 0 0] 1.2;
+
+nu              nu [0 2 -1 0 0 0 0] 1.5e-05;
+rho             rho [1 -3 0 0 0 0 0] 1.2;
+
+air
+{
+    transportModel  Newtonian;
+    nu              nu [0 2 -1 0 0 0 0] 1.5e-05;
+    rho             rho [1 -3 0 0 0 0 0] 1.2;
+}

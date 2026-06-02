@@ -1,0 +1,40 @@
+FoamFile { version 2.0; format ascii; class dictionary; location "system"; object fvSolution; }
+
+solvers
+{
+    "p.*"
+    {
+        solver          PCG;
+        preconditioner  diagonal;
+        tolerance       5e-4;
+        relTol          0.05;
+    }
+    "(U|k|omega).*"
+    {
+        solver          PBiCGStab;
+        preconditioner  DILU;
+        tolerance       1e-7;
+        relTol          0.1;
+    }
+}
+
+PIMPLE
+{
+    nOuterCorrectors     2;
+    nCorrectors          2;
+    nNonOrthogonalCorrectors 5; 
+}
+
+relaxationFactors
+{
+    fields
+    {
+        "p.*"           0.05; 
+    }
+    equations
+    {
+        "U.*"           0.2; 
+        "k.*"           0.2;
+        "omega.*"       0.2;
+    }
+}

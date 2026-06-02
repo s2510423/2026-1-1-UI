@@ -1,0 +1,134 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                                                                   |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2312                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      snappyHexMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// 1. 최상단 마스터 스위치 (이전 버전에서 누락되었던 파츠 보완)
+castellatedMesh true;
+snap            true;
+addLayers       true;
+
+// 2. 글로벌 파라미터 및 디버그 플래그
+mergeTolerance 1e-6;
+debug 0;
+
+geometry
+{
+    Inlet.stl  { type triSurfaceMesh; name Inlet; }
+    Outlet.stl { type triSurfaceMesh; name Outlet; }
+    Wall.stl   { type triSurfaceMesh; name Wall; }
+}
+
+castellatedMeshControls
+{
+    maxLocalCells 100000;
+    maxGlobalCells 2000000000;
+    minRefinementCells 10;
+    nCellsBetweenLevels 2;
+
+features
+    (
+        // level을 1로 낮춰서 격자가 급격하게 뒤틀리는 것을 막습니다.
+        { file "Wall.eMesh"; level 1; }
+        { file "Inlet.eMesh"; level 1; }
+        { file "Outlet.eMesh"; level 1; }
+    );
+
+    refinementSurfaces
+    {
+        Inlet  { level (2 2); }
+        Outlet { level (2 2); }
+        Wall   { level (3 3); } 
+    }
+
+    resolveFeatureAngle 30;
+
+    refinementRegions
+    {
+    }
+locationInMesh (0.3 0.05 0.05);
+
+    allowFreeStandingZoneFaces false;
+}
+
+snapControls
+{
+    nSmoothPatch 3;
+    tolerance 2.0;
+    nSolveIter 30;
+    nRelaxIter 5;
+}
+
+addLayersControls
+{
+    featureAngle        130;
+    nLayerIter          50;      
+    nRelaxIter          5;       
+
+    relativeSizes       true;
+    expansionRatio      1.2;
+    finalLayerThickness 0.3;
+    minThickness        0.1;
+
+    nGrow               1;
+    nBufferCellsNoExtrude 0;
+    maxFaceThicknessRatio 0.5;
+    maxThicknessToMedialRatio 0.3;
+    minMedialAxisAngle  90;
+    nSmoothSurfaceNormals 1;
+    nSmoothNormals      3;
+    nSmoothThickness    10;
+    maxMedialAxisAngle  90;
+
+    // 🌟 오픈폼이 없다고 발작한 핵심 범인 검거 및 수리 완료!
+    layers
+    {
+        // 승환 님이 정밀하게 쪼개야 하는 찐 벽면 패치 이름을 적어줍니다.
+        Wall
+        {
+            nSurfaceLayers 3; // 벽면에 촘촘한 경계층 격자를 3겹 쌓겠다는 선언!
+        }
+    }
+}
+meshQualityControls
+{
+    maxNonOrtho 65;
+    maxBoundarySkewness 20;
+    maxInternalSkewness 4;
+    maxConcave 80;
+    minFlatness 0.5;
+    minVol 1e-13;
+    minTetQuality 1e-30;
+    minArea -1;
+    minTwist 0.02;
+    minDeterminant 1e-4;
+    minFacessssWeight 0.02;
+    minVolRatio 0.01;
+    nSmoothScale 4;
+    errorReduction 0.75;
+    minTriangleTwist -1;        
+    minVolXYZ            1e-13;
+    minFlatnessXYZ       0.5;
+    minFaceWeight       0.02;
+}
+
+// 3. 최하단 병렬 연산용 필수 컴포넌트 껍데기 추가
+mergeFacesControls
+{
+    mergeTolerance 1e-6;
+    mergePlanarFaces false;
+}
+
+// ************************************************************************* //

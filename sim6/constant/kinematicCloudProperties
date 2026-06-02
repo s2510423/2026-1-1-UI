@@ -1,0 +1,114 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                                                                   |
+| \\       /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\     /   O peration     | Version:  2312                                  |
+|   \\   /    A nd           | Website:  www.openfoam.com                      |
+|    \\/      M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    arch        "LSB;label=32;scalar=64";
+    class       dictionary;
+    location    "constant";
+    object      kinematicCloudProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+type            kinematicCloud;
+
+solution
+{
+    active      true;
+    transient   true;
+    coupled     false;
+    cellValueSourceCorrection false;
+    maxCo       0.3;
+    
+    interpolationSchemes
+    {
+        default         cell;
+        U.air           cell;
+        rho.air         cell;
+        mu.air          cell;
+        p.air           cell;
+        
+        U               cell;
+        rho             cell;
+        mu              cell;
+        p               cell;
+    }
+    
+    integrationSchemes
+    {
+        U               Euler;
+    }
+}
+
+constantProperties
+{
+    // 🌟 [수정] PM75 (75마이크로미터) 액적 물 밀도 반영
+    rho0            1000;
+    d0              75e-6; 
+    youngsModulus   1e8;
+    poissonsRatio   0.35;
+    alphaMax        0.62;
+}
+
+subModels
+{
+    particleForces
+    {
+        sphereDrag;
+        gravity;
+    }
+
+    injectionModels
+    {
+        model1
+        {
+            type            patchInjection;
+            patch           Inlet;
+            
+            SOI             0.0;
+            duration        0.0001;          
+            
+            parcelBasisType fixed;
+            nParticle       1;
+            parcelsPerSecond 1000000;        
+            
+            flowRateProfile constant 1;      
+            
+            // 🌟 [수정] 75마이크로미터 물 액적 100개에 맞는 정밀 계산 질량값
+            massTotal       2.2089e-8;       
+            
+            U0              (4 0 0);
+            
+            sizeDistribution
+            {
+                type        fixedValue;
+                fixedValueDistribution
+                {
+                    // 🌟 [수정] 실제 분사되는 액적 직경을 75마이크로미터로 일치
+                    value   75e-6;          
+                }
+            }
+        }
+    }
+
+    collisionModel  none;
+    dispersionModel none;
+    
+    patchInteractionModel standardWallInteraction;
+    standardWallInteractionCoeffs
+    {
+        type            stick;               
+    }
+
+    stochasticCollisionModel none;
+    surfaceFilmModel none;
+    packingModel none;
+    dampingModel none;
+    isotropyModel none;
+}
