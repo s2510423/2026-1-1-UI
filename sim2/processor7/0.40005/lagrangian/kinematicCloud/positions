@@ -1,0 +1,27 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2312                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    arch        "LSB;label=32;scalar=64";
+    class       Cloud<basicKinematicCollidingParcel>;
+    location    "0.40005/lagrangian/kinematicCloud";
+    object      positions;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+3
+(
+(0.251397 0.123603 0.0932971) 1454
+(0.230326 0.063619 0.0748427) 8017
+(0.233841 0.0536993 0.0734558) 8115
+)
+
+
+// ************************************************************************* //

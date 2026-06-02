@@ -1,0 +1,115 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                                                                   |
+| \\       /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\     /   O peration     | Version:  2312                                  |
+|   \\   /    A nd           | Website:  www.openfoam.com                      |
+|    \\/      M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    arch        "LSB;label=32;scalar=64";
+    class       dictionary;
+    location    "constant";
+    object      kinematicCloudProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+type            kinematicCloud;
+
+solution
+{
+    active      true;
+    transient   true;
+    coupled     false;
+    cellValueSourceCorrection false;
+    maxCo       0.3;
+    
+    interpolationSchemes
+    {
+        default         cell;
+        U.air           cell;
+        rho.air         cell;
+        mu.air          cell;
+        p.air           cell;
+        
+        U               cell;
+        rho             cell;
+        mu              cell;
+        p               cell;
+    }
+    
+    integrationSchemes
+    {
+        U               Euler;
+    }
+}
+
+constantProperties
+{
+    // 🌟 [수정] 물 액적(Water Droplet) 표준 밀도 반영 (1000 kg/m3)
+    rho0            1000;
+    d0              2.5e-6;
+    youngsModulus   1e8;
+    poissonsRatio   0.35;
+    alphaMax        0.62;
+}
+
+subModels
+{
+    particleForces
+    {
+        sphereDrag;
+        gravity;
+    }
+
+    injectionModels
+    {
+        model1
+        {
+            type            patchInjection;
+            patch           Inlet;
+            
+            SOI             0.0;
+            duration        0.0001;          // 초기에 짧게 뿜고 닫기
+            
+            parcelBasisType fixed;
+            nParticle       1;
+            parcelsPerSecond 1000000;        // 0.0001초 동안 총 100개 유도
+            
+            flowRateProfile constant 1;      // 2312 필수 우회 항목
+            
+            // 🌟 [수정] 물 액적 100개에 맞는 총 질량으로 변경
+            massTotal       8.1812e-13;       
+            
+            U0              (4 0 0);
+            
+            sizeDistribution
+            {
+                type        fixedValue;
+                fixedValueDistribution
+                {
+                    value   2.5e-6;          // 액적 직경 (2.5 마이크로미터)
+                }
+            }
+        }
+    }
+
+    collisionModel  none;
+    dispersionModel none;
+    
+    // 🌟 [참고] 액적이 벽에 닿았을 때 액막(Film)을 형성하지 않고 
+    // 미스트 제거기 본연의 포집 메커니즘을 보기 위해 stick 조건을 유지합니다.
+    patchInteractionModel standardWallInteraction;
+    standardWallInteractionCoeffs
+    {
+        type            stick;               // 격판 벽면에 닿으면 즉시 포집 처리
+    }
+
+    stochasticCollisionModel none;
+    surfaceFilmModel none;
+    packingModel none;
+    dampingModel none;
+    isotropyModel none;
+}
